@@ -19,8 +19,7 @@ const Header = () => {
                 <Link to="/listDisciplines">Дисциплины</Link>
                 <Link to="/listStudentGroups">Группы</Link>
                 <Link to="/listStudents">Студенты</Link>
-                {/* Эти ссылки мы реализуем позже */}
-                {/* <Link to="/listTeachers">Преподаватели</Link> */}
+                <Link to="/listTeachers">Преподаватели</Link>
                 
                 <button onClick={handleLogout} style={{marginLeft: 'auto'}}>Выйти</button>
             </nav>

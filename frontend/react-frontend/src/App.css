@@ -1,26 +1,35 @@
 /* Навигация */
 nav {
   display: flex;
-  gap: 20px;
+  flex-direction: row; /* Явно указываем строку */
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   padding: 20px;
   background-color: #1a1a1a;
   border-radius: 12px;
   margin-bottom: 30px;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  
+  gap: 20px; /* Отступ между элементами через Flexbox */
 }
 
 nav a {
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1em;
-  margin-right: 20px;
+  color: #fff; /* Явно зададим белый цвет */
+  padding: 5px 10px; /* Немного воздуха вокруг текста */
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+nav a:hover {
+  background-color: #333;
+  color: #646cff;
 }
 
 nav button {
-  background-color: #8b2e2e; /* Красный для выхода */
+  background-color: #8b2e2e;
+  margin-left: auto; /* Отодвигает кнопку выхода вправо, если места хватает */
 }
 
 /* Сетки для списков */
