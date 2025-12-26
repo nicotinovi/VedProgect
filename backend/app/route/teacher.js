@@ -1,34 +1,23 @@
 module.exports = (app) => {
     const teacher = require('../controller/teacher');
 
-    // получение списка преподавателей
-
+    // --- Преподаватели ---
+    // Список всех преподавателей
     app.get('/api/listTeachers', teacher.listTeachers);
-
-    // добавление данных преподавателя
-
+    // Добавить преподавателя
     app.post('/api/addTeacher', teacher.addTeacher);
-
-    // обновление данных преподавателя
-
+    // Обновить преподавателя
     app.post('/api/updateTeacher/:id', teacher.updateTeacher);
-
-    // удаление данных преподавателя
-
+    // Удалить преподавателя
     app.post('/api/deleteTeacher/:id', teacher.deleteTeacher);
-
-    // получение данных преподавателя по id
+    // Получить одного преподавателя
     app.get('/api/teacher/:id', teacher.findById);
 
-    // получения информации о том, какие учебные дисциплины ведут преподаватели
-
-    app.get('/api/listTeacherDiscipline', teacher.listTeacherDiscipline);
-
-    // назначение преподавателю учебной дисциплины
-
+    // --- Связь Преподаватель <-> Дисциплина ---
+    // Список всех связей
+    app.get('/api/listTeacherDisciplines', teacher.listTeacherDiscipline);
+    // Назначить дисциплину преподавателю
     app.post('/api/addTeacherDiscipline', teacher.addTeacherDiscipline);
-
-    // удаление информации о назначении преподавателю учебной дисциплины
-
-    app.post('/api/deleteTeacherDiscipline/teacherId=:teacher_id/disciplineId=:discipline_id', teacher.deleteTeacherDiscipline);
+    // Удалить дисциплину у преподавателя (обрати внимание на длинный путь)
+    app.post('/api/deleteTeacherDiscipline/teacher/:teacher_id/discipline/:discipline_id', teacher.deleteTeacherDiscipline);
 };

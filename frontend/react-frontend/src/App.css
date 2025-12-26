@@ -1,7 +1,8 @@
 /* Навигация */
+/* Навигация */
 nav {
   display: flex;
-  flex-direction: row; /* Явно указываем строку */
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -9,17 +10,19 @@ nav {
   background-color: #1a1a1a;
   border-radius: 12px;
   margin-bottom: 30px;
-  gap: 20px; /* Отступ между элементами через Flexbox */
+  margin-right: 49px;
+  /* gap: 20px; Убрали gap, используем margin */
 }
 
 nav a {
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1em;
-  color: #fff; /* Явно зададим белый цвет */
-  padding: 5px 10px; /* Немного воздуха вокруг текста */
+  color: #fff;
+  padding: 8px 16px; /* Внутренние отступы для кликабельности */
+  margin: 0 10px;    /* Внешние отступы (слева и справа) */
   border-radius: 5px;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 nav a:hover {
@@ -29,7 +32,7 @@ nav a:hover {
 
 nav button {
   background-color: #8b2e2e;
-  margin-left: auto; /* Отодвигает кнопку выхода вправо, если места хватает */
+  margin-left: 20px; /* Отступ для кнопки */
 }
 
 /* Сетки для списков */

@@ -34,3 +34,6 @@ teacher(app);
 
 var auth = require('./app/route/authRoute');
 auth(app);
+
+var reportType = require('./app/route/reportType');
+reportType(app);

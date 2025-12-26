@@ -19,6 +19,8 @@ import StudentData from './components/student/StudentData.jsx';
 import ListTeachers from './components/teacher/ListTeachers.jsx';
 import AddTeacher from './components/teacher/AddTeacher.jsx';
 import TeacherData from './components/teacher/TeacherData.jsx';
+//импорт аттестации(добавил)
+import ListReportTypes from './components/reportType/ListReportTypes.jsx';
 
 const App = () => {
     return <>
@@ -42,6 +44,8 @@ const App = () => {
                 <Route path='/listTeachers' element={<Protected><ListTeachers/></Protected>}/>
                 <Route path='/addTeacher' element={<Protected><AddTeacher/></Protected>}/>
                 <Route path='/teacher/:id' element={<Protected><TeacherData/></Protected>}/>
+                {/*Для добавления аттестации*/}
+                <Route path='/listReportTypes' element={<Protected><ListReportTypes/></Protected>}/>
                 {/* Маршрут по умолчанию */}
                 <Route path="*" element={<Protected><ListDisciplines/></Protected>} />
             </Routes>

@@ -20,7 +20,7 @@ const Header = () => {
                 <Link to="/listStudentGroups">Группы</Link>
                 <Link to="/listStudents">Студенты</Link>
                 <Link to="/listTeachers">Преподаватели</Link>
-                
+                <Link to="/listReportTypes">Аттестация</Link>
                 <button onClick={handleLogout} style={{marginLeft: 'auto'}}>Выйти</button>
             </nav>
         </header>
