@@ -63,6 +63,7 @@ function ListSessions() {
         }
     };
 
+    const newLocal = "number";
     return (
         <div>
             <h2>Сессии (Ведомости)</h2>
@@ -108,7 +109,7 @@ function ListSessions() {
                         <div style={{display: 'flex', gap: '10px'}}>
                             <div style={{flex: 1}}>
                                 <label>Семестр:</label>
-                                <input type="number" value={newSession.semester} onChange={e => setNewSession({...newSession, semester: e.target.value})} />
+                                <input type={newLocal} value={newSession.semester} onChange={e => setNewSession({...newSession, semester: e.target.value})} />
                             </div>
                             <div style={{flex: 1}}>
                                 <label>Дата:</label>

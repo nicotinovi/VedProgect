@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import '../App.css'; // Убедимся, что стили подключены
 
 const Header = () => {
     const navigate = useNavigate();
@@ -10,20 +11,33 @@ const Header = () => {
         navigate("/login");
     };
 
-    // Если токена нет, не показываем навигацию (или показываем только логин)
+    // Если токена нет, не показываем шапку
     if (!token) return null;
 
+    // Функция для определения класса активной ссылки
+    const getLinkClass = ({ isActive }) => isActive ? "nav-link active" : "nav-link";
+
     return (
-        <header>
-            <nav>
-                <Link to="/listDisciplines">Дисциплины</Link>
-                <Link to="/listStudentGroups">Группы</Link>
-                <Link to="/listStudents">Студенты</Link>
-                <Link to="/listTeachers">Преподаватели</Link>
-                <Link to="/listReportTypes">Аттестация</Link>
-                <Link to="/listSessions">Сессии</Link>
-                <button onClick={handleLogout} style={{marginLeft: 'auto'}}>Выйти</button>
+        <header className="app-header">
+            {/* Логотип / Название проекта */}
+            <div className="header-logo">
+                🎓
+            </div>
+
+            {/* Навигация по центру */}
+            <nav className="header-nav">
+                <NavLink to="/listDisciplines" className={getLinkClass}>Дисциплины</NavLink>
+                <NavLink to="/listStudentGroups" className={getLinkClass}>Группы</NavLink>
+                <NavLink to="/listStudents" className={getLinkClass}>Студенты</NavLink>
+                <NavLink to="/listTeachers" className={getLinkClass}>Преподаватели</NavLink>
+                <NavLink to="/listReportTypes" className={getLinkClass}>Аттестация</NavLink>
+                <NavLink to="/listSessions" className={getLinkClass}>Сессии</NavLink>
             </nav>
+
+            {/* Кнопка выхода справа */}
+            <div className="header-actions">
+                <button onClick={handleLogout} className="logout-btn">Выйти</button>
+            </div>
         </header>
     );
 };

@@ -22,10 +22,10 @@ body {
 
 #root {
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 0; /* Убрали отступы */
   box-sizing: border-box;
+  /* max-width убрали, чтобы шапка была на весь экран */
 }
 
 /* Стили заголовков */
@@ -39,7 +39,7 @@ a {
   color: #646cff;
   text-decoration: inherit;
   transition: color 0.2s;
-  margin-right: 30px;
+  margin-right: 3px;
 }
 a:hover {
   color: #535bf2;
@@ -70,6 +70,7 @@ button:focus-visible {
 input[type="text"],
 input[type="password"],
 input[type="date"],
+input[type="number"],
 select {
   width: 100%;
   padding: 10px;

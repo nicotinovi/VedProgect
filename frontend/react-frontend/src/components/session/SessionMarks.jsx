@@ -6,16 +6,19 @@ function SessionMarks() {
     const { id } = useParams(); // ID сессии
     const [session, setSession] = useState(null);
     const [students, setStudents] = useState([]);
-    const [marks, setMarks] = useState({}); // Объект вида { student_id: mark }
+    const [marks, setMarks] = useState({}); 
+    
+    // НОВОЕ: Состояние блокировки полей { student_id: true/false }
+    const [lockedStates, setLockedStates] = useState({});
 
     // Загрузка данных
     useEffect(() => {
-        // 1. Загружаем информацию о сессии (какая группа, какой предмет)
+        // 1. Загружаем информацию о сессии
         axios.get("/session/" + id).then(res => {
             const sessionData = res.data;
             setSession(sessionData);
 
-            // 2. Зная группу, загружаем студентов этой группы
+            // 2. Загружаем студентов этой группы
             if (sessionData && sessionData.student_group_id) {
                 axios.get("/studentsByStudentGroup/studentGroupId=" + sessionData.student_group_id)
                     .then(resStudents => {
@@ -24,22 +27,26 @@ function SessionMarks() {
             }
         });
 
-        // 3. Загружаем уже выставленные оценки
+        // 3. Загружаем оценки и сразу БЛОКИРУЕМ те поля, где оценки уже есть
         axios.get("/attestation/session/" + id).then(res => {
             const marksMap = {};
+            const locksMap = {};
+            
             res.data.forEach(item => {
                 marksMap[item.student_id] = item.mark;
+                locksMap[item.student_id] = true; // Если оценка есть, блокируем поле
             });
+            
             setMarks(marksMap);
+            setLockedStates(locksMap);
         });
     }, [id]);
 
-    // Обработка изменения оценки в инпуте
     const handleMarkChange = (studentId, value) => {
         setMarks(prev => ({ ...prev, [studentId]: value }));
     };
 
-    // Сохранение оценки (при потере фокуса или нажатии Enter можно сделать, но сделаем кнопку)
+    // Сохранение оценки
     const saveMark = (studentId) => {
         const value = marks[studentId];
         axios.post("/attestation/save", {
@@ -47,8 +54,16 @@ function SessionMarks() {
             student_group_session_id: id,
             mark: value
         })
-        .then(() => alert("Оценка сохранена!"))
+        .then(() => {
+            // При успехе - блокируем поле
+            setLockedStates(prev => ({ ...prev, [studentId]: true }));
+        })
         .catch(e => alert("Ошибка сохранения"));
+    };
+
+    // НОВОЕ: Функция для включения режима редактирования
+    const enableEdit = (studentId) => {
+        setLockedStates(prev => ({ ...prev, [studentId]: false }));
     };
 
     if (!session) return <div>Загрузка ведомости...</div>;
@@ -72,28 +87,51 @@ function SessionMarks() {
                     </tr>
                 </thead>
                 <tbody>
-                    {students.map(student => (
-                        <tr key={student.id} style={{ borderBottom: '1px solid #333' }}>
-                            <td style={{ padding: '10px' }}>{student.name}</td>
-                            <td style={{ padding: '10px' }}>
-                                <input 
-                                    type="text" 
-                                    value={marks[student.id] || ""} 
-                                    onChange={(e) => handleMarkChange(student.id, e.target.value)}
-                                    placeholder="Например: 5, Зачет"
-                                    style={{ width: '150px', margin: 0 }}
-                                />
-                            </td>
-                            <td style={{ padding: '10px' }}>
-                                <button 
-                                    onClick={() => saveMark(student.id)}
-                                    style={{ padding: '5px 15px', backgroundColor: '#2d5e2e' }}
-                                >
-                                    Сохранить
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
+                    {students.map(student => {
+                        const isLocked = lockedStates[student.id]; // Проверяем, заблокирован ли студент
+
+                        return (
+                            <tr key={student.id} style={{ borderBottom: '1px solid #333' }}>
+                                <td style={{ padding: '10px' }}>{student.name}</td>
+                                <td style={{ padding: '10px' }}>
+                                    <input 
+                                        type="text" 
+                                        value={marks[student.id] || ""} 
+                                        onChange={(e) => handleMarkChange(student.id, e.target.value)}
+                                        placeholder="Например: 5"
+                                        disabled={isLocked} // Блокируем инпут
+                                        style={{ 
+                                            width: '150px', 
+                                            margin: 0,
+                                            // Визуально показываем, что поле заблокировано
+                                            opacity: isLocked ? 0.6 : 1, 
+                                            cursor: isLocked ? 'not-allowed' : 'text',
+                                            borderColor: isLocked ? 'transparent' : '#646cff'
+                                        }}
+                                    />
+                                </td>
+                                <td style={{ padding: '10px' }}>
+                                    {isLocked ? (
+                                        // Кнопка "Изменить" (синяя или серая)
+                                        <button 
+                                            onClick={() => enableEdit(student.id)}
+                                            style={{ padding: '5px 15px', backgroundColor: '#444' }}
+                                        >
+                                            Изменить
+                                        </button>
+                                    ) : (
+                                        // Кнопка "Сохранить" (зеленая)
+                                        <button 
+                                            onClick={() => saveMark(student.id)}
+                                            style={{ padding: '5px 15px', backgroundColor: '#2d5e2e' }}
+                                        >
+                                            Сохранить
+                                        </button>
+                                    )}
+                                </td>
+                            </tr>
+                        );
+                    })}
                     {students.length === 0 && <tr><td colSpan="3">В группе нет студентов</td></tr>}
                 </tbody>
             </table>

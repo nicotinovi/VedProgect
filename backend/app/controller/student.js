@@ -77,15 +77,9 @@ exports.findById = (req, res) => {
 
 // Получение студентов по id группы
 exports.studentsByStudentGroup = (req, res) => {
-    StudentGroup.findAll({
-        include: [
-            {
-                model: Student,
-                required: true // INNER JOIN
-            }
-        ],
+    Student.findAll({
         where: {
-            id: req.params.student_group_id
+            student_group_id: req.params.student_group_id
         }
     })
     .then(objects => {
