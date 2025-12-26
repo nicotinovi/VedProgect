@@ -36,7 +36,7 @@ exports.create = (req, res) => {
 // Обновление данных студента
 exports.update = (req, res) => {
     Student.update({
-            name: req.body.first,
+            name: req.body.name,
             student_group_id: req.body.student_group_id
         },
         {

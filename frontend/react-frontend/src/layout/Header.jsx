@@ -1,13 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-class Header extends React.Component {
-    render() {
-        return (
+const Header = () => {
+    const navigate = useNavigate();
+    const token = localStorage.getItem("token");
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/login");
+    };
+
+    // Если токена нет, не показываем навигацию (или показываем только логин)
+    if (!token) return null;
+
+    return (
+        <header>
             <nav>
-                <Link to={`/listDisciplines`}>Список дисциплин</Link>
+                <Link to="/listDisciplines">Дисциплины</Link>
+                <Link to="/listStudentGroups">Группы</Link>
+                <Link to="/listStudents">Студенты</Link>
+                {/* Эти ссылки мы реализуем позже */}
+                {/* <Link to="/listTeachers">Преподаватели</Link> */}
+                
+                <button onClick={handleLogout} style={{marginLeft: 'auto'}}>Выйти</button>
             </nav>
-        );
-    }
-}
+        </header>
+    );
+};
+
 export default Header;
