@@ -57,7 +57,7 @@ function ListReportTypes() {
             {/* Кнопка открытия формы */}
             {!showForm && (
                 <button onClick={() => setShowForm(true)} style={{ marginBottom: '20px' }}>
-                    + Добавить вид
+                    + Добавить вид контроля
                 </button>
             )}
             
@@ -76,8 +76,12 @@ function ListReportTypes() {
                             ))}
                         </select>
 
-                        <button type="submit" style={{ backgroundColor: '#2d5e2e' }}>Добавить</button>
-                        <button type="button" onClick={() => setShowForm(false)} style={{ backgroundColor: '#8b2e2e' }}>Отмена</button>
+                        <button type="submit" style={{ backgroundColor: '#2d5e2e' }}>
+                            Добавить
+                        </button>
+                        <button type="button" onClick={() => setShowForm(false)} style={{ backgroundColor: '#8b2e2e' }}>
+                            Отмена
+                        </button>
                     </form>
                 </div>
             )}

@@ -1,92 +1,87 @@
-import React, { useState, useEffect }  from 'react';
-
-import http from "../../../http-common";
-
-import { Navigate, useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from "../../../config/axios"; // Используем общий конфиг axios
+import { Navigate, useParams, Link } from 'react-router-dom';
 
 function DisciplineData() {
-
-    // useParams позволяет получить параметры из url
     const { id } = useParams();
-    // Объявление состояния
-    // discipline хранит состояние (имя задаётся разработчиком)
-    // setDiscipline позволяет состояние изменять (имя задаётся разработчиком)
-    const [discipline, setDiscipline] = useState({ // useState - стандартный метод для определения начального состояния
-        id: id, // идентификатор из параметров
-        name: "" // имя в начальном состоянии не заполняется
+    const [discipline, setDiscipline] = useState({
+        id: id,
+        name: ""
     });
-
-    // Объявление состояния
     const [submitted, setSubmitted] = useState(false);
 
-    // хук useEffect - аналог componentDidMount
     useEffect(() => {
-        if (!id) {
-            return;
-        }
-
-        function getDiscipline() {
-            http.get("/discipline/" + id)
-                .then(response => {
-                    setDiscipline(prevDiscipline => ({
-                        ...prevDiscipline,
-                        name: response.data.name
-                    }));
-                })
-                .catch(e => {
-                    console.log(e);
-                });
-        }
-
-        getDiscipline();
+        if (!id) return;
+        
+        axios.get("/discipline/" + id)
+            .then(response => {
+                setDiscipline(prev => ({
+                    ...prev,
+                    name: response.data.name
+                }));
+            })
+            .catch(e => console.log(e));
     }, [id]);
-
 
     function handleChange(event) {
         setDiscipline({
-            ...discipline, // копируем все свойства объекта
-            name: event.target.value // обновляем name
+            ...discipline,
+            name: event.target.value
         });
     }
 
     function handleSubmit(event) {
         event.preventDefault();
-        var data = {
-            name: discipline.name
-        };
-        http
-            .post("/updateDiscipline/" + discipline.id, data)
-            .then(() => { // запрос выполнился успешно
-                setSubmitted(true);
-            })
-            .catch(e => { // при выполнении запроса возникли ошибки
-                console.log(e);
-            });
+        axios.post("/updateDiscipline/" + discipline.id, { name: discipline.name })
+            .then(() => setSubmitted(true))
+            .catch(e => console.log(e));
     }
 
     function deleteDiscipline() {
-        http
-            .post("/deleteDiscipline/" + discipline.id)
-            .then(() => { // запрос выполнился успешно
-                setSubmitted(true);
-            })
-            .catch(e => { // при выполнении запроса возникли ошибки
-                console.log(e);
-            });
+        if(window.confirm("Вы уверены, что хотите удалить эту дисциплину?")) {
+            axios.post("/deleteDiscipline/" + discipline.id)
+                .then(() => setSubmitted(true))
+                .catch(e => console.log(e));
+        }
+    }
+
+    if (submitted) {
+        return <Navigate to="/listDisciplines" />;
     }
 
     return (
-        !submitted
-            ?
-            <div>
+        <div className="container">
+            <div className="edit-form">
+                <h2>Редактирование дисциплины</h2>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" name="name" value={discipline.name} placeholder="Наименование дисциплины" onChange={handleChange}/>
-                    <input type="submit" value="Обновить" />
+                    <input 
+                        type="text" 
+                        name="name" 
+                        value={discipline.name || ""} 
+                        placeholder="Наименование дисциплины" 
+                        onChange={handleChange}
+                    />
+                    
+                    <div className="action-buttons">
+                        <button 
+                            type="button" 
+                            onClick={deleteDiscipline} 
+                            style={{ backgroundColor: '#8b2e2e' }}
+                        >
+                            Удалить
+                        </button>
+                        <button type="submit">
+                            Сохранить
+                        </button>
+                    </div>
                 </form>
-                <button onClick={deleteDiscipline}>Удалить</button>
             </div>
-            : <Navigate to="/listDisciplines" /> // автоматически переходим по ссылке
-    )
+            
+            <div style={{ marginTop: '20px' }}>
+                 <Link to="/listDisciplines">← Назад к списку</Link>
+            </div>
+        </div>
+    );
 }
 
 export default DisciplineData;
