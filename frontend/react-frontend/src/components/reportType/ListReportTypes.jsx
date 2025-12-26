@@ -4,6 +4,9 @@ import axios from "../../../config/axios";
 function ListReportTypes() {
     const [types, setTypes] = useState([]);
     const [selectedType, setSelectedType] = useState("Экзамен"); // Значение по умолчанию
+    
+    // Состояние для отображения формы
+    const [showForm, setShowForm] = useState(false);
 
     // Стандартные варианты
     const standardTypes = [
@@ -34,7 +37,10 @@ function ListReportTypes() {
         }
 
         axios.post("/addReportType", { name: selectedType })
-            .then(() => loadTypes())
+            .then(() => {
+                loadTypes();
+                setShowForm(false); // Скрываем форму после успешного добавления
+            })
             .catch(e => alert("Ошибка добавления"));
     };
 
@@ -48,26 +54,33 @@ function ListReportTypes() {
         <div>
             <h2>Виды контроля</h2>
             
-            {/* Карточка добавления */}
-            <div className="edit-form" style={{ maxWidth: '500px', margin: '0 auto 30px auto' }}>
-                <h3>Добавить новый вид</h3>
-                <form onSubmit={handleAdd} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    
-                    <select 
-                        value={selectedType} 
-                        onChange={(e) => setSelectedType(e.target.value)}
-                        style={{ flex: 1, margin: 0 }}
-                    >
-                        {standardTypes.map(type => (
-                            <option key={type} value={type}>{type}</option>
-                        ))}
-                    </select>
+            {/* Кнопка открытия формы */}
+            {!showForm && (
+                <button onClick={() => setShowForm(true)} style={{ marginBottom: '20px' }}>
+                    + Добавить вид
+                </button>
+            )}
+            
+            {/* Выпадающая форма добавления */}
+            {showForm && (
+                <div className="edit-form" style={{ maxWidth: '500px', margin: '0 auto 20px auto', padding: '20px' }}>
+                    <form onSubmit={handleAdd} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        
+                        <select 
+                            value={selectedType} 
+                            onChange={(e) => setSelectedType(e.target.value)}
+                            style={{ flex: 1, margin: 0 }}
+                        >
+                            {standardTypes.map(type => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
 
-                    <button type="submit" style={{ backgroundColor: '#646cff' }}>
-                        Добавить
-                    </button>
-                </form>
-            </div>
+                        <button type="submit" style={{ backgroundColor: '#2d5e2e' }}>Добавить</button>
+                        <button type="button" onClick={() => setShowForm(false)} style={{ backgroundColor: '#8b2e2e' }}>Отмена</button>
+                    </form>
+                </div>
+            )}
 
             {/* Список */}
             <div className="list-grid">

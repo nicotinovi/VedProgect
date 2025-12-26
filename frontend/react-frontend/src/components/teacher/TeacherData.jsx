@@ -89,14 +89,14 @@ function TeacherData() {
                         onChange={(e) => setTeacher({ ...teacher, name: e.target.value })}
                     />
                     <div className="action-buttons">
-                        <button type="button" onClick={handleDelete} style={{backgroundColor: '#8b2e2e'}}>Удалить учителя</button>
-                        <button type="submit">Сохранить имя</button>
+                        <button type="button" onClick={handleDelete} style={{backgroundColor: '#8b2e2e'}}>Удалить</button>
+                        <button type="submit">Сохранить</button>
                     </div>
                 </form>
             </div>
 
             <div style={{ marginTop: "40px", textAlign: 'left', maxWidth: '600px', margin: '40px auto' }}>
-                <h3>Ведет дисциплины:</h3>
+                <h3>Дисциплины:</h3>
                 
                 {/* Список текущих дисциплин */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '20px' }}>
