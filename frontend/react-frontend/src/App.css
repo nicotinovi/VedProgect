@@ -1,38 +1,52 @@
 /* Навигация */
-/* Навигация */
 nav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 20px;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 15px !important; /* Главный отступ между кнопками */
+  
+  padding: 15px 20px;
   background-color: #1a1a1a;
   border-radius: 12px;
   margin-bottom: 30px;
-  margin-right: 49px;
-  /* gap: 20px; Убрали gap, используем margin */
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #333;
 }
 
 nav a {
+  display: inline-block !important; /* Чтобы отступы работали */
   text-decoration: none;
-  font-weight: bold;
-  font-size: 1.1em;
-  color: #fff;
-  padding: 8px 16px; /* Внутренние отступы для кликабельности */
-  margin: 0 10px;    /* Внешние отступы (слева и справа) */
-  border-radius: 5px;
-  transition: background-color 0.2s, color 0.2s;
+  font-weight: 600;
+  color: #e1e1e1;
+  padding: 10px 15px !important;
+  background-color: #2a2a2a; /* Легкий фон для кнопок */
+  border-radius: 8px;
+  transition: all 0.2s;
+  border: 1px solid transparent;
 }
 
 nav a:hover {
-  background-color: #333;
-  color: #646cff;
+  background-color: #646cff;
+  color: white;
+  border-color: #888;
 }
 
 nav button {
   background-color: #8b2e2e;
-  margin-left: 20px; /* Отступ для кнопки */
+  color: white;
+  margin-left: auto !important; /* Кнопку выхода толкаем вправо */
+  padding: 10px 20px;
+}
+
+/* Если экран маленький - кнопка выхода встает в общий ряд */
+@media (max-width: 600px) {
+  nav button {
+    margin-left: 0 !important;
+    width: 100%;
+  }
 }
 
 /* Сетки для списков */

@@ -21,6 +21,10 @@ import AddTeacher from './components/teacher/AddTeacher.jsx';
 import TeacherData from './components/teacher/TeacherData.jsx';
 //импорт аттестации(добавил)
 import ListReportTypes from './components/reportType/ListReportTypes.jsx';
+//Импорт для сессии(добавил)
+import ListSessions from './components/session/ListSessions.jsx';
+//импорт для оценок(добавил)
+import SessionMarks from './components/session/SessionMarks.jsx';
 
 const App = () => {
     return <>
@@ -32,20 +36,24 @@ const App = () => {
                 <Route path='/listDisciplines' element={<Protected><ListDisciplines/></Protected>}/>
                 <Route path='/addDiscipline' element={<Protected><AddDiscipline/></Protected>}/>
                 <Route path='/discipline/:id' element={<Protected><DisciplineData/></Protected>}/>
-                {/*Для добавления групп*/}
+                {/*Роут для групп*/}
                 <Route path='/listStudentGroups' element={<Protected><ListStudentGroups/></Protected>}/>
                 <Route path='/addStudentGroup' element={<Protected><AddStudentGroup/></Protected>}/>
                 <Route path='/studentGroup/:id' element={<Protected><StudentGroupData/></Protected>}/>
-                {/*Для добавления студентов*/}
+                {/*Роут для студентов*/}
                 <Route path='/listStudents' element={<Protected><ListStudents/></Protected>}/>
                 <Route path='/addStudent' element={<Protected><AddStudent/></Protected>}/>
                 <Route path='/student/:id' element={<Protected><StudentData/></Protected>}/>
-                {/*Для добавления преподавателей*/}
+                {/*Роут для преподавателей*/}
                 <Route path='/listTeachers' element={<Protected><ListTeachers/></Protected>}/>
                 <Route path='/addTeacher' element={<Protected><AddTeacher/></Protected>}/>
                 <Route path='/teacher/:id' element={<Protected><TeacherData/></Protected>}/>
-                {/*Для добавления аттестации*/}
+                {/*Роут для аттестации*/}
                 <Route path='/listReportTypes' element={<Protected><ListReportTypes/></Protected>}/>
+                {/*Роут для сессии*/}
+                <Route path='/listSessions' element={<Protected><ListSessions/></Protected>}/>
+                {/*Роут для оценок*/}                
+                <Route path='/sessionMarks/:id' element={<Protected><SessionMarks/></Protected>}/>
                 {/* Маршрут по умолчанию */}
                 <Route path="*" element={<Protected><ListDisciplines/></Protected>} />
             </Routes>

@@ -37,3 +37,9 @@ auth(app);
 
 var reportType = require('./app/route/reportType');
 reportType(app);
+
+var session = require('./app/route/session');
+session(app);
+
+var attestation = require('./app/route/attestation');
+attestation(app);

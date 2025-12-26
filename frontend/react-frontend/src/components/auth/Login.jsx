@@ -21,9 +21,9 @@ const Login = () => {
 
     return (
         <form onSubmit={handleLogin}>
-            <h2>Логин</h2>
-            <input value={username} onChange={e => setUsername(e.target.value)}></input>
-            <input type="password" value={password} onChange={e => setPassword(e.target.value)}></input>
+            <h2>Авторизация</h2>
+            <input type="password" value={username} placeholder="Логин" onChange={e => setUsername(e.target.value)}></input>
+            <input type="password" value={password} placeholder="Пароль" onChange={e => setPassword(e.target.value)}></input>
             <button type="submit">Войти</button>
             <Link to={'/register'}><button>Регистрация</button></Link>
         </form>
