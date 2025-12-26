@@ -103,3 +103,36 @@
     justify-content: center;
   }
 }
+
+.list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px; /* Было 20px, стало меньше */
+  margin-top: 20px;
+}
+
+/* Карточка элемента */
+.card-item {
+  background-color: #1a1a1a;
+  padding: 15px; /* Чуть меньше отступы внутри */
+  border-radius: 8px; /* Чуть аккуратнее углы */
+  border: 1px solid #333;
+  transition: transform 0.2s, border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: auto; /* Убрали фиксированную высоту 100px */
+}
+
+.card-item:hover {
+  transform: translateY(-10px); /* Чуть меньший подскок */
+  border-color: #646cff;
+}
+
+/* Дополнительно для компактности заголовков внутри карточек */
+.card-item h3 {
+    margin: 5px 0;
+    font-size: 1.1rem;
+}
